@@ -1,6 +1,7 @@
 package com.countries.services;
 
 import com.countries.dtos.GetCountriesRequest;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -23,29 +24,31 @@ public class CountriesService {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public ArrayNode getCountries(GetCountriesRequest getCountriesRequest) throws IOException, InterruptedException {
+    public ObjectNode getCountries(GetCountriesRequest getCountriesRequest) throws IOException, InterruptedException {
 
         val response = this.makeCountriesExternalRequest();
-        val countries = this.parseCountriesResponse(response);
-        ArrayNode result = countries;
+        val countriesResponse = this.parseCountriesResponse(response);
+        val finalResponse = this.mapper.createObjectNode();
+        ArrayNode countries = countriesResponse;
 
         if (getCountriesRequest.getName() != null) {
-            result = this.filterCountriesByName(countries, getCountriesRequest.getName());
+            countries = this.filterCountriesByName(countriesResponse, getCountriesRequest.getName());
         }
 
         if (getCountriesRequest.getPopulation() != null) {
-            result = this.filterCountriesByPopulation(result, getCountriesRequest.getIntPopulation());
+            countries = this.filterCountriesByPopulation(countries, getCountriesRequest.getIntPopulation());
         }
 
         if (getCountriesRequest.getNameSort() != null) {
-            result = this.sortCountriesByName(result, getCountriesRequest.getNameSort());
+            countries = this.sortCountriesByName(countries, getCountriesRequest.getNameSort());
         }
 
         if (getCountriesRequest.getOffset() != null && getCountriesRequest.getLimit() != null) {
-            result = this.paginateCountries(result, Integer.parseInt(getCountriesRequest.getOffset()), Integer.parseInt(getCountriesRequest.getLimit()));
+            countries = this.paginateCountries(countries, Integer.parseInt(getCountriesRequest.getOffset()), Integer.parseInt(getCountriesRequest.getLimit()));
         }
 
-        return result;
+        finalResponse.set("countries", countries);
+        return finalResponse;
     }
 
     public String makeCountriesExternalRequest() throws IOException, InterruptedException {
