@@ -21,7 +21,7 @@ public class CountriesControllerTest {
     private MockMvc mvc;
 
     @Test
-    public void getAllCountries() throws Exception
+    void getAllCountries() throws Exception
     {
         mvc.perform(MockMvcRequestBuilders
                         .get("/countries")
@@ -33,7 +33,7 @@ public class CountriesControllerTest {
     }
 
     @Test
-    public void getCountriesFilteredByName() throws Exception
+    void getCountriesFilteredByName() throws Exception
     {
         mvc.perform(MockMvcRequestBuilders
                         .get("/countries?name=ico")
@@ -46,7 +46,7 @@ public class CountriesControllerTest {
     }
 
     @Test
-    public void getCountriesFilteredByNameOrderedByNameAsc() throws Exception
+    void getCountriesFilteredByNameOrderedByNameAsc() throws Exception
     {
         mvc.perform(MockMvcRequestBuilders
                         .get("/countries?name=ico&name_sort=ascend")
@@ -61,7 +61,7 @@ public class CountriesControllerTest {
     }
 
     @Test
-    public void getCountriesFilteredByNameOrderedByNameDesc() throws Exception
+    void getCountriesFilteredByNameOrderedByNameDesc() throws Exception
     {
         mvc.perform(MockMvcRequestBuilders
                         .get("/countries?name=ico&name_sort=descend")
@@ -76,7 +76,7 @@ public class CountriesControllerTest {
     }
 
     @Test
-    public void getCountriesFilteredByPopulationLowerThan1Million() throws Exception
+    void getCountriesFilteredByPopulationLowerThan1Million() throws Exception
     {
         mvc.perform(MockMvcRequestBuilders
                         .get("/countries?population=1")
@@ -89,7 +89,7 @@ public class CountriesControllerTest {
     }
 
     @Test
-    public void getCountriesFilteredByPopulationLowerThan10Million() throws Exception
+    void getCountriesFilteredByPopulationLowerThan10Million() throws Exception
     {
         mvc.perform(MockMvcRequestBuilders
                         .get("/countries?population=10")
@@ -102,7 +102,7 @@ public class CountriesControllerTest {
     }
 
     @Test
-    public void getCountriesWithLimit1() throws Exception
+    void getCountriesWithLimit1() throws Exception
     {
         mvc.perform(MockMvcRequestBuilders
                         .get("/countries?offset=0&limit=1")
@@ -115,7 +115,7 @@ public class CountriesControllerTest {
     }
 
     @Test
-    public void getCountriesWithLimit30() throws Exception
+    void getCountriesWithLimit30() throws Exception
     {
         mvc.perform(MockMvcRequestBuilders
                         .get("/countries?offset=0&limit=30")
@@ -128,7 +128,7 @@ public class CountriesControllerTest {
     }
 
     @Test
-    public void getCountriesPaginatedPage0() throws Exception
+    void getCountriesPaginatedPage0() throws Exception
     {
         mvc.perform(MockMvcRequestBuilders
                         .get("/countries?name=ico&offset=0&limit=1&name_sort=ascend")
@@ -142,7 +142,7 @@ public class CountriesControllerTest {
     }
 
     @Test
-    public void getCountriesPaginatedPage1() throws Exception
+    void getCountriesPaginatedPage1() throws Exception
     {
         mvc.perform(MockMvcRequestBuilders
                         .get("/countries?name=ico&offset=1&limit=1&name_sort=ascend")
@@ -156,7 +156,7 @@ public class CountriesControllerTest {
     }
 
     @Test
-    public void getCountriesPaginatedPage2() throws Exception
+    void getCountriesPaginatedPage2() throws Exception
     {
         mvc.perform(MockMvcRequestBuilders
                         .get("/countries?name=ico&offset=2&limit=1&name_sort=ascend")
@@ -168,5 +168,4 @@ public class CountriesControllerTest {
                 .andExpect(jsonPath("$.countries[0].name", containsString("Turks and Caicos Islands")))
                 .andExpect(jsonPath("$.countries.length()").value(1));
     }
-
 }
