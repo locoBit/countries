@@ -4,6 +4,7 @@ import com.countries.dtos.GetCountriesRequest;
 import com.countries.services.CountriesService;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +14,7 @@ import java.io.IOException;
 
 @AllArgsConstructor
 @RestController
+@Slf4j
 public class CountriesController {
 
     private final CountriesService countriesService;
@@ -39,7 +41,7 @@ public class CountriesController {
 
             response = countriesService.getCountries(request);
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage());
         }
 
         return response;

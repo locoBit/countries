@@ -69,7 +69,7 @@ public class CountriesService {
             country.set("name", c.get("name").get("common"));
             country.set("population", c.get("population"));
             country.set("flag", c.get("flag"));
-            
+
             countries.add(country);
         });
 
